@@ -380,12 +380,14 @@ format: {format}
         ollama_response_text = response['response']
         ollama_response_thinking = response['thinking'] if think else None
 
-        if keep_context:
-            self.saved_context = response["context"]
+        response_context = response.get("context")
+
+        if keep_context and response_context is not None:
+            self.saved_context = response_context
             if debug_print:
                 print("saving context to node memory.")
 
-        return ollama_response_text, ollama_response_thinking, response['context'], meta,
+        return ollama_response_text, ollama_response_thinking, response_context, meta
 
 
 class OllamaChat:
